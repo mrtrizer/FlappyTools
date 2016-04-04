@@ -1,4 +1,4 @@
-INPUT = ../src/ ../tests/ ../README.md ./commands/
+INPUT = ../src/ ../engine/tests/ ../engine/src/ ../README.md ./commands/
 OUTPUT_DIRECTORY = ./build/
 HAVE_DOT = YES
 FILE_PATTERNS = *.cpp *.h *.md
