@@ -7,6 +7,7 @@ import tools
 
 
 def run(argv, projectDir, engineDir):
+    tools.assertMsg(len(argv) > 1, "Target not defined")
     targetDir = os.path.join(projectDir, "targets/", argv[1], "res/")
     resDir = os.path.join(projectDir, "build/res/")
     targetResDir = os.path.join(projectDir, "targets/", argv[1], "res/")

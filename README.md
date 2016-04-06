@@ -16,11 +16,11 @@ To initialize new project, create a folder first and call init command there:
 	mkdir MyProject
 	cd MyProject
 	flappy init
-	flappy gentarget cmake
 
 ##Build project
 To build project:
 
+	flappy gentarget cmake
 	cd MyProject/targets/cmake/
 	cmake -G "Unix Makefiles"
 	make

@@ -69,3 +69,10 @@ def findProRoot(path):
 def getToolPath(path):
     """Returns path to FlappyTools"""
     return os.path.join(os.path.dirname(os.path.realpath(path)), "..")
+
+
+def assertMsg(condition, msg):
+    if (condition):
+        return
+    print (bcolors.FAIL + " [ERROR] " + bcolors.ENDC + msg)
+    exit(1)

@@ -7,10 +7,10 @@ import tools
 
 
 def run(argv, projectDir, engineDir):
+    tools.assertMsg(len(argv) > 1, "Target not defined")
     templateDir = os.path.join(engineDir, "templates/targets", argv[1])
-    if (not os.path.isdir(templateDir)):
-        print("Target is not supported: " + argv[1])
-        exit(2)
+    tools.assertMsg(os.path.isdir(templateDir),
+                    "Target is not supported: " + argv[1])
     configPath = os.path.join(projectDir, "config.json")
 
     jsonFile = open(configPath, 'r')

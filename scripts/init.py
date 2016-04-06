@@ -8,16 +8,10 @@ import tools
 
 
 def run(argv, projectDir, engineDir):
-    if (len(argv) < 2):
-        print("Specify a project name.")
-        exit(1)
-    if (projectDir is None):
-        print(
-            "Project was initialized earlier.\n"
-            "Remove config.json to initialize it again.")
-        exit(2)
-    else:
-        projectDir = "."
+    tools.assertMsg(len(argv) > 1, "Specify a project name.")
+    tools.assertMsg(projectDir is None, "Project was initialized earlier.\n" +
+                                        "Remove config.json to reinitialize.")
+    projectDir = "."
 
     templateDir = os.path.join(engineDir, "templates/project")
     projectName = argv[1]
