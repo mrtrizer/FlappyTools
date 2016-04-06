@@ -16,7 +16,7 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 target_link_libraries(${EXECUTABLE_NAME} FlappyEngine)
 
-file(COPY ../../res DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
 
 find_package(PNG)
 find_package(SDL_image)
