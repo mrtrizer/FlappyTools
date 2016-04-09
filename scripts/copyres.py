@@ -7,12 +7,8 @@ import imp
 import tools
 
 
-def defaultCopyRes(filePath, targetPath):
-    return os.path.join(targetPath, "res")
-
-
 def run(argv, projectDir, engineDir):
-    tools.assertMsg(len(argv) > 1, "Target not defined")
+    tools.assertMsg(len(argv) > 1, "Target is not defined")
     targetDir = os.path.join(projectDir, "targets/", argv[1], "res/")
     resDir = os.path.join(projectDir, "build/res/")
     targetResDir = os.path.join(projectDir, "targets/", argv[1], "res/")
@@ -21,9 +17,10 @@ def run(argv, projectDir, engineDir):
                               "scripts/targets/",
                               argv[1],
                               "copyres.py")
-    copyResFunc = defaultCopyRes
     if (os.path.exists(targetResDir)):
         copyResFunc = imp.load_source('copyres', scriptPath).copyRes
+        tools.copyAll(resDir, targetResDir, copyResFunc)
+    else:
+        tools.copyAll(resDir, targetResDir)
 
     print "Resource copy to target..."
-    tools.copyAll(resDir, targetResDir, copyResFunc)
