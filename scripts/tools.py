@@ -66,13 +66,24 @@ def replaceAll(templateDir, targetDir, config):
                 out.write(outData)
 
 
-def copyAll(sourceDir, targetDir):
+def copyAll(sourceDir, targetDir, copyCallback=None):
     for path, dirs, files in os.walk(sourceDir):
         print "Path: " + os.path.relpath(path)
         for fileName in files:
-            print (bcolors.OKGREEN + " [COPY] " +
-                   bcolors.ENDC + fileName)
-            shutil.copy(os.path.join(path, fileName), targetDir)
+            outDir = targetDir
+            if copyCallback is not None:
+                outDir = copyCallback(fileName, targetDir)
+            if not os.path.exists(outDir):
+                os.makedirs(outDir)
+                print (bcolors.OKGREEN +
+                       " [NEW DIR] " +
+                       bcolors.ENDC +
+                       outDir)
+            print (bcolors.OKGREEN +
+                   " [COPY] " +
+                   bcolors.ENDC +
+                   fileName + " > " + outDir)
+            shutil.copy(os.path.join(path, fileName), outDir)
 
 
 def findProRoot(path):
