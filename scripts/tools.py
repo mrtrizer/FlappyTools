@@ -53,9 +53,9 @@ def replaceAll(templateDir, targetDir, config):
         for fileName in files:
             print bcolors.OKGREEN + " [PROC] " + bcolors.ENDC + fileName
             relPath = os.path.relpath(path, templateDir)
-            relPath = replace(relPath, config)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
+            outPath = replace(outPath, config)
             outDir = os.path.dirname(outPath)
             with open(inPath, 'r') as f:
                 inData = f.read()

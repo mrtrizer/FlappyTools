@@ -5,7 +5,6 @@
 #elif SDL_IMAGE_FOUND
 #include <sdl/viewfactorysdl.h>
 #endif
-#include <iostream>
 
 int main(int argc, char *argv[])
 {
