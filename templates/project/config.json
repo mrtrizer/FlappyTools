@@ -1,10 +1,9 @@
 {
-	"name":"<?name?>",
-	"engine":"./engine/",
-	"src":"./src/",
-	"doc":"./doc/",
-	"res":"./res/",
+	"name":"{!name!}",
 	"cmake": {
-		"exec_name":"<?name?>"
+		"exec_name":"{!name!}"
+	},
+	"android": {
+		"id":"{?name.lower()?}"
 	}
 }

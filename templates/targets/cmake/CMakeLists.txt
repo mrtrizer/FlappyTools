@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(<?name?>)
+project({!name!})
 
 set(CMAKE_BUILD_TYPE Debug)
 
 add_definitions("-std=c++1y")
 include_directories("./src/" "../../src/")
-add_subdirectory(../../<?engine?> engine)
+add_subdirectory(../../{!engine!} engine)
 
 file(GLOB SOURCES src/*.cpp ../../src/*.cpp ./*.cpp)
 
-set(EXECUTABLE_NAME <?cmake.exec_name?>)
+set(EXECUTABLE_NAME {!cmake.exec_name!})
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 

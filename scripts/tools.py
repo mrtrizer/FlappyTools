@@ -15,16 +15,34 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def replace(base, config, inData):
-    outData = inData
-    for key in config:
-        if (isinstance(config[key], dict)):
-            outData = replace(key + ".", config[key], outData)
+def findValue(config, keyStr):
+    keyList = keyStr.split(".")
+    curConfig = config
+    for key in keyList:
+        if (isinstance(curConfig, dict)):
+            if (key in curConfig):
+                curConfig = curConfig[key]
+            else:
+                return 0
         else:
-            outData = re.sub("<\?" + base + r"" + key + "\?>",
-                             config[key],
-                             outData)
-    return outData
+            return 1
+    return curConfig
+
+
+def replace(data, config):
+    curData = data
+
+    def replaceLink(str):
+        repl = str.group(1)
+        value = findValue(config, repl)
+        return value
+
+    def evalCode(str):
+        repl = str.group(1)
+        return eval(repl, config)
+    curData = re.sub("{!(.*?)!}", replaceLink, curData)
+    curData = re.sub("{\?(.*?)\?}", evalCode, curData)
+    return curData
 
 
 def replaceAll(templateDir, targetDir, config):
@@ -35,12 +53,13 @@ def replaceAll(templateDir, targetDir, config):
         for fileName in files:
             print bcolors.OKGREEN + " [PROC] " + bcolors.ENDC + fileName
             relPath = os.path.relpath(path, templateDir)
+            relPath = replace(relPath, config)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
             outDir = os.path.dirname(outPath)
             with open(inPath, 'r') as f:
                 inData = f.read()
-                outData = replace("", config, inData)
+                outData = replace(inData, config)
                 if not os.path.exists(outDir):
                     os.makedirs(outDir)
                 out = open(outPath, 'w')
