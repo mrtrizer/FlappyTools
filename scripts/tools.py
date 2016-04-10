@@ -29,7 +29,7 @@ def findValue(config, keyStr):
     return curConfig
 
 
-def replace(data, config):
+def replace(data, config, functions):
     curData = data
 
     def replaceLink(str):
@@ -39,13 +39,14 @@ def replace(data, config):
 
     def evalCode(str):
         repl = str.group(1)
-        return eval(repl, config)
+        print repl
+        return eval(repl, config, functions)
     curData = re.sub("{!(.*?)!}", replaceLink, curData)
     curData = re.sub("{\?(.*?)\?}", evalCode, curData)
     return curData
 
 
-def replaceAll(templateDir, targetDir, config):
+def replaceAll(templateDir, targetDir, config, functions):
     print "Parameters:"
     print json.dumps(config, sort_keys=True, indent=4, separators=(',', ': '))
     print "Processing..."
@@ -55,11 +56,11 @@ def replaceAll(templateDir, targetDir, config):
             relPath = os.path.relpath(path, templateDir)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
-            outPath = replace(outPath, config)
+            outPath = replace(outPath, config, functions)
             outDir = os.path.dirname(outPath)
             with open(inPath, 'r') as f:
                 inData = f.read()
-                outData = replace(inData, config)
+                outData = replace(inData, config, functions)
                 if not os.path.exists(outDir):
                     os.makedirs(outDir)
                 out = open(outPath, 'w')

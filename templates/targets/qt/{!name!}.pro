@@ -15,6 +15,5 @@ DEFINES += VIEW_TYPE=GL
 
 SOURCES += main.cpp
 
-SOURCES += ../../src/ctrl.cpp ../../src/world.cpp
-HEADERS += ../../src/ctrl.h ../../src/world.h
-
+{?sourceList(projectDir,".cpp","SOURCES")?}
+{?sourceList(projectDir,".h","HEADERS")?}
