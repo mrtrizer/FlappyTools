@@ -17,7 +17,7 @@ def run(argv, projectDir, engineDir):
                               "scripts/targets/",
                               argv[1],
                               "copyres.py")
-    if (os.path.exists(targetResDir)):
+    if (os.path.exists(scriptPath)):
         copyResFunc = imp.load_source('copyres', scriptPath).copyRes
         tools.copyAll(resDir, targetResDir, copyResFunc)
     else:

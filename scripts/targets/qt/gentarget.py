@@ -1,14 +1,14 @@
 import os
+import re
 
 
-def sourceList(projectDir, targetExt, name):
+def sourceList(sourceDir, template, targetExt=None):
     str = ""
-    srcDir = os.path.join(projectDir, "src")
-    for path, dirs, files in os.walk(srcDir):
+    for path, dirs, files in os.walk(sourceDir):
         for fileName in files:
             ext = os.path.splitext(fileName)[1]
-            print ext
-            if (ext == targetExt):
-                str += name + " += ../../" + fileName + "\n"
-    print str
+            line = re.sub("\*", fileName, template)
+            print fileName
+            if ((ext == targetExt) or (targetExt is None)):
+                str += line
     return str

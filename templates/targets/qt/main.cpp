@@ -7,6 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-    GLUTMgr::initGLUT(argc, argv, std::make_shared<ViewFactoryQt>("../qt/res/"), std::make_shared<Ctrl>());
+    GLUTMgr::initGLUT(argc, argv, std::make_shared<ViewFactoryQt>(":///{?name.lower()?}/res/"), std::make_shared<Ctrl>());
     return 0;
 }

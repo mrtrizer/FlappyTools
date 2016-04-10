@@ -25,5 +25,9 @@ def run(argv, projectDir, engineDir):
         tools.copyAll(resDir, outResDir)
 
     print "Config generation..."
-    config = {"revision": os.popen("git describe --always").read().strip()}
+    revision = os.popen("git describe --always").read().strip()
+    print len(revision.strip())
+    if (len(revision.strip()) == 0):
+        revision = "0"
+    config = {"revision": revision}
     tools.replaceAll(templateConfigDir, outSrcDir, config)

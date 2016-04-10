@@ -39,14 +39,13 @@ def replace(data, config, functions):
 
     def evalCode(str):
         repl = str.group(1)
-        print repl
         return eval(repl, config, functions)
     curData = re.sub("{!(.*?)!}", replaceLink, curData)
     curData = re.sub("{\?(.*?)\?}", evalCode, curData)
     return curData
 
 
-def replaceAll(templateDir, targetDir, config, functions):
+def replaceAll(templateDir, targetDir, config, functions={}):
     print "Parameters:"
     print json.dumps(config, sort_keys=True, indent=4, separators=(',', ': '))
     print "Processing..."
