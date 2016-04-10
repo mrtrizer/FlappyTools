@@ -20,7 +20,7 @@ To initialize new project, create a folder first and call init command there:
 ##Build project
 To build project:
 
-	flappy gentarget cmake
+	flappy prebuild cmake
 	cd MyProject/targets/cmake/
 	cmake -G "Unix Makefiles"
 	make

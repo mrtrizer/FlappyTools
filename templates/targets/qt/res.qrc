@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/{?name.lower()?}">
-{?fileList(projectDir + "/build/res/", "\t\t\t\t<file>res/*</file>\n")?}
+{?printList(fileList(projectDir + "/build/res/"),"\t\t\t\t<file>res/*</file>\n")?}
     </qresource>
 </RCC>

@@ -7,6 +7,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 INCLUDEPATH += ../../src
 INCLUDEPATH += ../../build/src/
+{?printList(inc_dirs,"INCLUDEPATH += ../../*\n")?}
 
 include("../../engine/src/FlappyEngine.pri")
 
@@ -17,8 +18,8 @@ DEFINES += VIEW_TYPE=GL
 SOURCES += main.cpp
 HEADERS += ../../build/src/config.h
 
-{?fileList(projectDir + "/src/","SOURCES += ../../src/*\n",".cpp")?}
-{?fileList(projectDir + "/src/","HEADERS += ../../src/*\n",".h")?}
+{?printList(fileList(projectDir + "/src/",".cpp"),"SOURCES += ../../src/*\n",exclude)?}
+{?printList(fileList(projectDir + "/src/",".h"),"HEADERS += ../../src/*\n",exclude)?}
 
 prebuildTarget.target = prebuild
 prebuildTarget.depends = FORCE

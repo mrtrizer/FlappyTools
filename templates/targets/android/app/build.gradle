@@ -26,7 +26,9 @@ model {
         stl = "gnustl_shared"
         cppFlags.addAll(["-Werror","-DANDROID_JNI","-std=c++11","-fexceptions","-frtti",
                          "-I${file('../../../engine/src')}".toString(),
-                         "-I${file('../../../src')}".toString()])
+                         "-I${file('../../../src')}".toString()
+{?printList(inc_dirs,"\t\t\t\t\t\t,\"-I${file('../../../*')}\".toString()\n")?}
+                         ])
         ldLibs.addAll(["log", "GLESv2"])
     }
 
@@ -44,6 +46,7 @@ model {
                     exclude('**/png/**')
                     exclude('**/sdl/**')
                     exclude('**/qt/**')
+{?printList(exclude,"\t\t\t\t\texclude('*')\n")?}
                 }
             }
         }

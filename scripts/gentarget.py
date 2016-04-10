@@ -7,15 +7,30 @@ import re
 import tools
 
 
-def fileList(sourceDir, template, targetExt=None):
-    str = ""
+def fileList(sourceDir, targetExt=None):
+    fileList = []
     for path, dirs, files in os.walk(sourceDir):
         for fileName in files:
             ext = os.path.splitext(fileName)[1]
-            line = re.sub("\*", fileName, template)
+            filePath = os.path.join(os.path.relpath(path, sourceDir), fileName)
             if ((ext == targetExt) or (targetExt is None)):
-                str += line
-    return str
+                fileList.append(filePath)
+    return fileList
+
+
+def printList(list, template, exclude=None):
+    text = ""
+    for item in list:
+        line = re.sub("\*", item, template)
+        passLine = False
+        if exclude is not None:
+            for pattern in exclude:
+                pattern = re.sub("\*\*", ".*", pattern)
+                if (len(re.findall(pattern, line)) > 0):
+                    passLine = True
+        if not passLine:
+            text += line
+    return text
 
 
 def run(argv, projectDir, engineDir):
@@ -35,7 +50,8 @@ def run(argv, projectDir, engineDir):
 
     functions = {"projectDir": projectDir,
                  "engineDir": engineDir,
-                 "fileList": fileList}
+                 "fileList": fileList,
+                 "printList": printList}
 
     targetSpec = tools.loadTargetSpec(engineDir, argv[1], "methods")
 
