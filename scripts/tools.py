@@ -2,6 +2,7 @@ import re
 import os
 import json
 import shutil
+import imp
 
 
 class bcolors:
@@ -62,6 +63,12 @@ def replaceAll(templateDir, targetDir, config, functions={}):
                 outData = replace(inData, config, functions)
                 if not os.path.exists(outDir):
                     os.makedirs(outDir)
+                if os.path.exists(outPath):
+                    check = open(outPath, 'r')
+                    if (check.read() == outData):
+                        print (bcolors.OKGREEN + " [PASS] " + bcolors.ENDC +
+                               fileName)
+                        continue
                 out = open(outPath, 'w')
                 out.write(outData)
 
@@ -106,3 +113,15 @@ def assertMsg(condition, msg):
         return
     print (bcolors.FAIL + " [ERROR] " + bcolors.ENDC + msg)
     exit(1)
+
+
+def loadTargetSpec(engineDir, target, name):
+    """Loads target specific script and returns it as a module"""
+    scriptPath = os.path.join(engineDir,
+                              "scripts/targets/",
+                              target,
+                              name + ".py")
+    if (os.path.exists(scriptPath)):
+        return imp.load_source(name, scriptPath)
+    else:
+        return None

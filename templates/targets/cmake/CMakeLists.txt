@@ -16,7 +16,11 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 target_link_libraries(${EXECUTABLE_NAME} FlappyEngine)
 
-file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
+add_custom_command(TARGET ${EXECUTABLE_NAME}
+        PRE_BUILD
+        COMMAND flappy prebuild cmake
+        COMMAND cp ${CMAKE_CURRENT_LIST_DIR}/res ${CMAKE_BINARY_DIR} -R
+)
 
 find_package(PNG)
 find_package(SDL_image)

@@ -2,7 +2,6 @@
 import os
 import sys
 import json
-import imp
 
 import tools
 
@@ -13,13 +12,9 @@ def run(argv, projectDir, engineDir):
     resDir = os.path.join(projectDir, "build/res/")
     targetResDir = os.path.join(projectDir, "targets/", argv[1], "res/")
 
-    scriptPath = os.path.join(engineDir,
-                              "scripts/targets/",
-                              argv[1],
-                              "copyres.py")
-    if (os.path.exists(scriptPath)):
-        copyResFunc = imp.load_source('copyres', scriptPath).copyRes
-        tools.copyAll(resDir, targetResDir, copyResFunc)
+    targetSpec = tools.loadTargetSpec(engineDir, argv[1], "copyres")
+    if targetSpec is not None:
+        tools.copyAll(resDir, targetResDir, targetSpec.copyRes)
     else:
         tools.copyAll(resDir, targetResDir)
 

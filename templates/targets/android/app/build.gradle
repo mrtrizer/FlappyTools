@@ -5,6 +5,15 @@ model {
         compileSdkVersion = 23
         buildToolsVersion = "23.0.2"
 
+
+        task prebuildTask(type: Exec) {
+            commandLine 'flappy', 'prebuild', 'android'
+        }
+
+        tasks.withType(JavaCompile) {
+            compileTask -> compileTask.dependsOn prebuildTask
+        }
+
         defaultConfig.with {
             applicationId = "com.android.{!android.id!}"
             minSdkVersion.apiLevel = 5
@@ -30,10 +39,11 @@ model {
             }
             jni {
                 source {
-                    srcDirs '../../../src','src/main/jni','../../../engine/src'
+                    srcDirs '../../../src','src/main/jni','../../../engine/src','../../../build/src'
                     exclude('**/glut/**')
                     exclude('**/png/**')
                     exclude('**/sdl/**')
+                    exclude('**/qt/**')
                 }
             }
         }

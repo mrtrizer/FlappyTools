@@ -2,9 +2,20 @@
 import os
 import sys
 import json
-import imp
+import re
 
 import tools
+
+
+def fileList(sourceDir, template, targetExt=None):
+    str = ""
+    for path, dirs, files in os.walk(sourceDir):
+        for fileName in files:
+            ext = os.path.splitext(fileName)[1]
+            line = re.sub("\*", fileName, template)
+            if ((ext == targetExt) or (targetExt is None)):
+                str += line
+    return str
 
 
 def run(argv, projectDir, engineDir):
@@ -23,13 +34,12 @@ def run(argv, projectDir, engineDir):
     print("Config: " + configPath)
 
     functions = {"projectDir": projectDir,
-                 "engineDir": engineDir}
+                 "engineDir": engineDir,
+                 "fileList": fileList}
 
-    scriptPath = os.path.join(engineDir,
-                              "scripts/targets/",
-                              argv[1],
-                              "gentarget.py")
-    if (os.path.exists(scriptPath)):
-        functions.update(imp.load_source('copyres', scriptPath).__dict__)
+    targetSpec = tools.loadTargetSpec(engineDir, argv[1], "methods")
+
+    if targetSpec is not None:
+        functions.update(targetSpec.__dict__)
 
     tools.replaceAll(templateDir, targetDir, config, functions)

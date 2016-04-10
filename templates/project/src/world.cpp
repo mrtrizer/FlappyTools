@@ -6,7 +6,7 @@
 World::World() {
 }
 
-void World::recalc(GObj::DeltaT, const GContext & gContext) {
+void World::recalc(GObj::DeltaT, const GContext &) {
 
 }
 

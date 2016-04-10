@@ -17,8 +17,8 @@ DEFINES += VIEW_TYPE=GL
 SOURCES += main.cpp
 HEADERS += ../../build/src/config.h
 
-{?sourceList(projectDir + "/src/","SOURCES += ../../src/*\n",".cpp")?}
-{?sourceList(projectDir + "/src/","HEADERS += ../../src/*\n",".h")?}
+{?fileList(projectDir + "/src/","SOURCES += ../../src/*\n",".cpp")?}
+{?fileList(projectDir + "/src/","HEADERS += ../../src/*\n",".h")?}
 
 prebuildTarget.target = prebuild
 prebuildTarget.depends = FORCE
