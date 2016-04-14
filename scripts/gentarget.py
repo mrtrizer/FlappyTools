@@ -33,20 +33,16 @@ def printList(list, template, exclude=None):
     return text
 
 
-def run(argv, projectDir, engineDir):
+def run(argv, projectDir, engineDir, config):
     tools.assertMsg(len(argv) > 1, "Target not defined")
     templateDir = os.path.join(engineDir, "templates/targets", argv[1])
     tools.assertMsg(os.path.isdir(templateDir),
                     "Target is not supported: " + argv[1])
-    configPath = os.path.join(projectDir, "config.json")
-
-    jsonFile = open(configPath, 'r')
-    config = json.load(jsonFile)
+    tools.assertMsg(config is not None, "It is not a flappy project subdir.")
     targetDir = os.path.join(projectDir, "targets", argv[1])
 
     print("Template: " + templateDir)
     print("Target: " + targetDir)
-    print("Config: " + configPath)
 
     functions = {"projectDir": projectDir,
                  "engineDir": engineDir,

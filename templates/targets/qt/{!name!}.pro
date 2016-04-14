@@ -9,7 +9,7 @@ INCLUDEPATH += ../../src
 INCLUDEPATH += ../../build/src/
 {?printList(inc_dirs,"INCLUDEPATH += ../../*\n")?}
 
-include("../../engine/src/FlappyEngine.pri")
+include("../../{!engine!}/src/FlappyEngine.pri")
 
 QMAKE_CXXFLAGS += -std=c++1y
 

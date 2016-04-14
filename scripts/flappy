@@ -6,7 +6,16 @@ import importlib
 
 import tools
 
+proRoot = tools.findProRoot(".")
+configPath = ""
+config = None
+if proRoot is not None:
+    configPath = os.path.join(proRoot, "config.json")
+    jsonFile = open(configPath, 'r')
+    config = json.load(jsonFile)
+
 tools.assertMsg(len(sys.argv) > 1, "Command not defined")
 importlib.import_module(sys.argv[1]).run(sys.argv[1:],
-                                         tools.findProRoot("."),
-                                         tools.getToolPath(sys.argv[0]))
+                                         proRoot,
+                                         tools.getToolPath(sys.argv[0]),
+                                         config)

@@ -20,7 +20,7 @@ include_directories(
     "../../src/"
 {?printList(inc_dirs,"\t\t\"../../*\"\n")?}
 )
-add_subdirectory(../../engine engine)
+add_subdirectory(../../{!engine!} engine)
 
 file(GLOB SOURCES src/*.cpp ./*.cpp)
 

@@ -5,8 +5,8 @@ import sys
 import tools
 
 
-def run(argv, projectDir, engineDir):
-    engineResDir = os.path.join(projectDir, "engine/res")
+def run(argv, projectDir, engineDir, config):
+    engineResDir = os.path.join(projectDir, config["engine"], "res")
     projectResDir = os.path.join(projectDir, "res")
     templateConfigDir = os.path.join(engineDir, "templates/config/")
     outResDir = os.path.join(projectDir, "build/res/")

@@ -10,7 +10,7 @@ import copyres
 import gentarget
 
 
-def run(argv, projectDir, engineDir):
-    buildres.run(argv, projectDir, engineDir)
-    gentarget.run(argv, projectDir, engineDir)
-    copyres.run(argv, projectDir, engineDir)
+def run(argv, projectDir, engineDir, config):
+    buildres.run(argv, projectDir, engineDir, config)
+    gentarget.run(argv, projectDir, engineDir, config)
+    copyres.run(argv, projectDir, engineDir, config)

@@ -41,7 +41,7 @@ model {
             }
             jni {
                 source {
-                    srcDirs '../../../src','src/main/jni','../../../engine/src','../../../build/src'
+                    srcDirs '../../../src','src/main/jni','../../../{!engine!}/src','../../../build/src'
                     exclude('**/glut/**')
                     exclude('**/png/**')
                     exclude('**/sdl/**')
