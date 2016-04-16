@@ -7,7 +7,7 @@ import json
 import tools
 
 
-def run(argv, projectDir, engineDir):
+def run(argv, projectDir, engineDir, config):
     tools.assertMsg(len(argv) > 1, "Specify a project name.")
     tools.assertMsg(projectDir is None, "Project was initialized earlier.\n" +
                                         "Remove config.json to reinitialize.")

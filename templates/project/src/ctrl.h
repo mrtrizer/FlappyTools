@@ -10,7 +10,7 @@
 
 class Ctrl: public GWorldCtrl {
 public:
-    void init();
+    void init() override;
 };
 
 #endif // FLAPPYCTRL_H
