@@ -1,14 +1,31 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(TestTest)
+project({!name!})
+
+add_custom_target(PreBuild ALL
+    COMMAND flappy prebuild cmake
+)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_definitions("-std=c++1y")
-include_directories("./src/" "../../src/")
-add_subdirectory(../../engine engine)
+if (NOT ${CMAKE_CURRENT_LIST_DIR} MATCHES ${CMAKE_BINARY_DIR})
+    add_custom_target(PreBuildResCp ALL
+        COMMAND cp ${CMAKE_CURRENT_LIST_DIR}/res ${CMAKE_BINARY_DIR} -R
+    )
+endif()
 
-file(GLOB SOURCES src/*.cpp ../../src/*.cpp ./*.cpp)
+add_definitions("-std=c++1y")
+add_definitions("-DGL_ES")
+include_directories(
+    "./src/"
+    "../../src/"
+{?printList(inc_dirs,"\t\t\"../../*\"\n")?}
+)
+add_subdirectory(../../{!engine!} engine)
+
+file(GLOB SOURCES src/*.cpp ./*.cpp)
+
+{?printList(fileList(projectDir + "/src/",".cpp"),"list(APPEND SOURCES ../../src/*)\n",exclude)?}
 
 set(EXECUTABLE_NAME {!cmake.exec_name!})
 
@@ -16,8 +33,9 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 target_link_libraries(${EXECUTABLE_NAME} FlappyEngine)
 
-file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
-
 find_package(SDL_image)
 
 add_definitions(-DSDL_IMAGE_FOUND)
+
+set(CMAKE_USE_RELATIVE_PATHS TRUE)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
