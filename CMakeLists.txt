@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 project (FlappyTools)
 
 install(DIRECTORY ./scripts DESTINATION flappytools/ USE_SOURCE_PERMISSIONS)
-install(DIRECTORY ./doc DESTINATION flappytools/ USE_SOURCE_PERMISSIONS)
-install(DIRECTORY ./templates DESTINATION flappytools/ USE_SOURCE_PERMISSIONS)
 install(CODE "execute_process(COMMAND ln -sf ${CMAKE_INSTALL_PREFIX}/flappytools/scripts/flappy /usr/local/bin/flappy)")
 
 configure_file(

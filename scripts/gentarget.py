@@ -35,7 +35,7 @@ def printList(list, template, exclude=None):
 
 def run(argv, projectDir, engineDir, config):
     tools.assertMsg(len(argv) > 1, "Target not defined")
-    templateDir = os.path.join(engineDir, "templates/targets", argv[1])
+    templateDir = os.path.join(projectDir, "engine/templates/targets", argv[1])
     tools.assertMsg(os.path.isdir(templateDir),
                     "Target is not supported: " + argv[1])
     tools.assertMsg(config is not None, "It is not a flappy project subdir.")
