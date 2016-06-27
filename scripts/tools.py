@@ -115,10 +115,10 @@ def assertMsg(condition, msg):
     exit(1)
 
 
-def loadTargetSpec(engineDir, target, name):
+def loadTargetSpec(projectDir, engineDir, target, name):
     """Loads target specific script and returns it as a module"""
-    scriptPath = os.path.join(engineDir,
-                              "scripts/targets/",
+    scriptPath = os.path.join(projectDir,
+                              "engine/scripts/targets/",
                               target,
                               name + ".py")
     if (os.path.exists(scriptPath)):

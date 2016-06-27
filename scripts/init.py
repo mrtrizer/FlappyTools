@@ -17,7 +17,7 @@ def run(argv, projectDir, engineDir, config):
     print os.popen("git submodule add https://github.com/mrtrizer/FlappyEngine.git engine").read().strip()
     print os.popen("git submodule update --init").read().strip()
 
-    templateDir = os.path.join(engineDir, "templates/project")
+    templateDir = os.path.join(projectDir, "engine/templates/project")
     projectName = argv[1]
     config = {"name": projectName}
 

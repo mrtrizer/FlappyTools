@@ -49,7 +49,7 @@ def run(argv, projectDir, engineDir, config):
                  "fileList": fileList,
                  "printList": printList}
 
-    targetSpec = tools.loadTargetSpec(engineDir, argv[1], "methods")
+    targetSpec = tools.loadTargetSpec(projectDir, engineDir, argv[1], "methods")
 
     if targetSpec is not None:
         functions.update(targetSpec.__dict__)
