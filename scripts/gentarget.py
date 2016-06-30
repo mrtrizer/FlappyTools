@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import re
+import md5
 
 import tools
 
@@ -33,6 +34,24 @@ def printList(list, template, exclude=None):
     return text
 
 
+def printXCodeFileList(list):
+    text = ""
+    for item in list:
+        line = re.sub("\$", os.path.basename(item), "% /* $ */ = {isa = PBXFileReference; fileEncoding = 4; path = $; sourceTree = \"<group>\"; };\n")
+        line = re.sub("\%", md5.new(item).hexdigest()[:24].upper(), line)
+        text += line
+    return text
+
+
+def printXCodeHashList(list):
+    text = ""
+    for item in list:
+        line = re.sub("\$", os.path.basename(item), "% /* $ */,\n")
+        line = re.sub("\%", md5.new(item).hexdigest()[:24].upper(), line)
+        text += line
+    return text
+
+
 def run(argv, projectDir, engineDir, config):
     tools.assertMsg(len(argv) > 1, "Target not defined")
     templateDir = os.path.join(projectDir, "engine/templates/targets", argv[1])
@@ -47,7 +66,9 @@ def run(argv, projectDir, engineDir, config):
     functions = {"projectDir": projectDir,
                  "engineDir": engineDir,
                  "fileList": fileList,
-                 "printList": printList}
+                 "printList": printList,
+                 "printXCodeFileList": printXCodeFileList,
+                 "printXCodeHashList": printXCodeHashList}
 
     targetSpec = tools.loadTargetSpec(projectDir, engineDir, argv[1], "methods")
 
