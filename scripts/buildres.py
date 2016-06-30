@@ -8,7 +8,7 @@ import tools
 def run(argv, projectDir, engineDir, config):
     engineResDir = os.path.join(projectDir, config["engine"], "res")
     projectResDir = os.path.join(projectDir, "res")
-    templateConfigDir = os.path.join(engineDir, "templates/config/")
+    templateConfigDir = os.path.join(projectDir, "engine/templates/config/")
     outResDir = os.path.join(projectDir, "build/res/")
     outSrcDir = os.path.join(projectDir, "build/src/")
 
