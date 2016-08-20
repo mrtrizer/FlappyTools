@@ -3,6 +3,8 @@ import os
 import json
 import shutil
 import imp
+import sys
+import exceptions
 
 
 class bcolors:
@@ -30,8 +32,8 @@ def findValue(config, keyStr):
     return curConfig
 
 
-def replace(data, config, functions):
-    curData = data
+def replaceLines(curFile, config, functions):
+    curData = ""
 
     def replaceLink(str):
         repl = str.group(1)
@@ -41,8 +43,32 @@ def replace(data, config, functions):
     def evalCode(str):
         repl = str.group(1)
         return eval(repl, config, functions)
-    curData = re.sub("{!(.*?)!}", replaceLink, curData)
-    curData = re.sub("{\?(.*?)\?}", evalCode, curData)
+
+    process = True
+    curLineN = 0
+
+    try:
+        for line in curFile:
+            curLineN += 1
+            newLine = line
+            condition = re.search("{\?\I\F\ (.*?)\?}", newLine)
+            if condition:
+                process = eval(condition.group(1), config, functions)
+                continue
+            conditionEnd = re.search("{\?ENDIF\?}", newLine)
+            if conditionEnd:
+                process = True
+                continue
+            if process:
+                newLine = re.sub("{!(.*?)!}", replaceLink, newLine)
+                newLine = re.sub("{\?(.*?)\?}", evalCode, newLine)
+                curData += newLine
+    except exceptions.SyntaxError as (errno, strerror):
+        assertMsg(False, "Processing error in line: {}  ### {}  {}".
+                  format(str(curLineN), errno, strerror))
+    except:
+        assertMsg(False, "Unexpected processing error in line: {}".
+                  format(str(curLineN)))
     return curData
 
 
@@ -56,11 +82,11 @@ def replaceAll(templateDir, targetDir, config, functions={}):
             relPath = os.path.relpath(path, templateDir)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
-            outPath = replace(outPath, config, functions)
+            outPath = replaceLines(outPath, config, functions)
             outDir = os.path.dirname(outPath)
             with open(inPath, 'r') as f:
-                inData = f.read()
-                outData = replace(inData, config, functions)
+                #inData = f.read()
+                outData = replaceLines(f, config, functions)
                 if not os.path.exists(outDir):
                     os.makedirs(outDir)
                 if os.path.exists(outPath):
