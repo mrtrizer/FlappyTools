@@ -32,8 +32,8 @@ def findValue(config, keyStr):
     return curConfig
 
 
-def replaceLines(curFile, config, functions):
-    curData = ""
+def replace(data, config, functions):
+    curData = data
 
     def replaceLink(str):
         repl = str.group(1)
@@ -43,6 +43,13 @@ def replaceLines(curFile, config, functions):
     def evalCode(str):
         repl = str.group(1)
         return eval(repl, config, functions)
+    curData = re.sub("{!(.*?)!}", replaceLink, curData)
+    curData = re.sub("{\?(.*?)\?}", evalCode, curData)
+    return curData
+
+
+def replaceLines(curFile, config, functions):
+    curData = ""
 
     process = True
     curLineN = 0
@@ -60,9 +67,7 @@ def replaceLines(curFile, config, functions):
                 process = True
                 continue
             if process:
-                newLine = re.sub("{!(.*?)!}", replaceLink, newLine)
-                newLine = re.sub("{\?(.*?)\?}", evalCode, newLine)
-                curData += newLine
+                curData += replace(newLine, config, functions)
     except exceptions.SyntaxError as (errno, strerror):
         assertMsg(False, "Processing error in line: {}  ### {}  {}".
                   format(str(curLineN), errno, strerror))
@@ -82,7 +87,7 @@ def replaceAll(templateDir, targetDir, config, functions={}):
             relPath = os.path.relpath(path, templateDir)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
-            outPath = replaceLines(outPath, config, functions)
+            outPath = replace(outPath, config, functions)
             outDir = os.path.dirname(outPath)
             with open(inPath, 'r') as f:
                 #inData = f.read()
