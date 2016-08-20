@@ -1,6 +1,6 @@
 Main Page {#mainpage}
 =========
-# FlappyEngine
+# FlappyEngine ![build](https://travis-ci.org/mrtrizer/FlappyTools.svg?branch=master)
 ##Install FlappyTools
 To install:
 

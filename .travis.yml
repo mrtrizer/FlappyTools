@@ -27,3 +27,8 @@ script:
  - cd targets/qt
  - qmake testproject.pro
  - make
+ - cd ../../
+
+after_success:
+  - cd ../
+  - sudo make uninstall
