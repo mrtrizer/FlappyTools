@@ -6,6 +6,10 @@ import importlib
 
 import tools
 
+command = sys.argv[1]
+if command == "--help" or command == "-h":
+    command = "help"
+
 proRoot = tools.findProRoot(".")
 configPath = ""
 config = None
@@ -14,8 +18,14 @@ if proRoot is not None:
     jsonFile = open(configPath, 'r')
     config = json.load(jsonFile)
 
+toolPath = tools.getToolPath(sys.argv[0])
+
+if proRoot:
+    tools.infoMessage("info", "Project root: " + proRoot)
+tools.infoMessage("info", "FlappyTools: " + toolPath)
+
 tools.assertMsg(len(sys.argv) > 1, "Command not defined")
-importlib.import_module(sys.argv[1]).run(sys.argv[1:],
-                                         proRoot,
-                                         tools.getToolPath(sys.argv[0]),
-                                         config)
+importlib.import_module(command).run(sys.argv[1:],
+                                     proRoot,
+                                     toolPath,
+                                     config)

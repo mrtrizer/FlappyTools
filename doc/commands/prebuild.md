@@ -1,6 +1,6 @@
 flappy prebuild {#prebuild}
 =========
-Prebuilds project resources and generates config sources.
+Prebuilds project resources and generates configuration sources.
 Usage:
 
     flappy prebuild <target>

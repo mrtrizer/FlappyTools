@@ -7,7 +7,7 @@ import re
 import tools
 
 
-def run(argv, projectDir, engineDir):
+def run(argv, projectDir, engineDir, config):
     """Prints help doc from doc/commands"""
     if (len(argv) < 2):
         commandName = "help"

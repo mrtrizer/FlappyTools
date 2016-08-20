@@ -52,7 +52,7 @@ def replaceAll(templateDir, targetDir, config, functions={}):
     print "Processing..."
     for path, dirs, files in os.walk(templateDir):
         for fileName in files:
-            print bcolors.OKGREEN + " [PROC] " + bcolors.ENDC + fileName
+            infoMessage("proc", fileName)
             relPath = os.path.relpath(path, templateDir)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
@@ -66,8 +66,7 @@ def replaceAll(templateDir, targetDir, config, functions={}):
                 if os.path.exists(outPath):
                     check = open(outPath, 'r')
                     if (check.read() == outData):
-                        print (bcolors.OKGREEN + " [PASS] " + bcolors.ENDC +
-                               fileName)
+                        infoMessage("pass", fileName)
                         continue
                 out = open(outPath, 'w')
                 out.write(outData)
@@ -82,14 +81,8 @@ def copyAll(sourceDir, targetDir, copyCallback=None):
                 outDir = copyCallback(fileName, targetDir)
             if not os.path.exists(outDir):
                 os.makedirs(outDir)
-                print (bcolors.OKGREEN +
-                       " [NEW DIR] " +
-                       bcolors.ENDC +
-                       outDir)
-            print (bcolors.OKGREEN +
-                   " [COPY] " +
-                   bcolors.ENDC +
-                   fileName + " > " + outDir)
+                infoMessage("new dir", outDir)
+            infoMessage("copy", fileName + " > " + outDir)
             shutil.copy(os.path.join(path, fileName), outDir)
 
 
@@ -108,17 +101,22 @@ def getToolPath(path):
     return os.path.join(os.path.dirname(os.path.realpath(path)), "..")
 
 
+def infoMessage(msgType, msg, color=bcolors.OKGREEN):
+    print color + " [" + msgType.upper() + "] " + bcolors.ENDC + msg
+
+
 def assertMsg(condition, msg):
     if (condition):
         return
-    print (bcolors.FAIL + " [ERROR] " + bcolors.ENDC + msg)
+    infoMessage("error", msg, bcolors.FAIL)
     exit(1)
 
 
-def loadTargetAll(projectDir, engineDir, name):
+def loadTargetAll(projectDir, engineDir, name, config):
     """Loads common targets script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
-                              "engine/scripts/targets/",
+                              config["engine"],
+                              "scripts/targets/",
                               name + ".py")
     if (os.path.exists(scriptPath)):
         return imp.load_source(name, scriptPath)
@@ -126,10 +124,11 @@ def loadTargetAll(projectDir, engineDir, name):
         return None
 
 
-def loadTargetSpec(projectDir, engineDir, target, name):
+def loadTargetSpec(projectDir, engineDir, target, name, config):
     """Loads target specific script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
-                              "engine/scripts/targets/",
+                              config["engine"],
+                              "scripts/targets/",
                               target,
                               name + ".py")
     if (os.path.exists(scriptPath)):

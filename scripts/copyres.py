@@ -12,7 +12,11 @@ def run(argv, projectDir, engineDir, config):
     resDir = os.path.join(projectDir, "build/res/")
     targetResDir = os.path.join(projectDir, "targets/", argv[1], "res/")
 
-    targetSpec = tools.loadTargetSpec(projectDir, engineDir, argv[1], "copyres")
+    targetSpec = tools.loadTargetSpec(projectDir,
+                                      engineDir,
+                                      argv[1],
+                                      "copyres",
+                                      config)
     if targetSpec is not None:
         tools.copyAll(resDir, targetResDir, targetSpec.copyRes)
     else:
