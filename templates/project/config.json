@@ -3,6 +3,7 @@
 	"engine":"{!engine!}",
 	"exclude":[],
 	"inc_dirs":[],
+	"console_mode":false,
 	"cmake": {
 		"exec_name":"{!name!}"
 	},
