@@ -147,7 +147,7 @@ def loadTargetAll(projectDir, engineDir, name, config):
     """Loads common targets script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
                               config["engine"],
-                              "scripts/targets/",
+                              "scripts/",
                               name + ".py")
     if (os.path.exists(scriptPath)):
         return imp.load_source(name, scriptPath)
@@ -159,8 +159,9 @@ def loadTargetSpec(projectDir, engineDir, target, name, config):
     """Loads target specific script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
                               config["engine"],
-                              "scripts/targets/",
+                              "targets/",
                               target,
+                              "scripts",
                               name + ".py")
     if (os.path.exists(scriptPath)):
         return imp.load_source(name, scriptPath)

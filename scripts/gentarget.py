@@ -11,8 +11,9 @@ def run(argv, projectDir, engineDir, config):
     tools.assertMsg(len(argv) > 1, "Target not defined")
     templateDir = os.path.join(projectDir,
                                config["engine"],
-                               "templates/targets",
-                               argv[1])
+                               "targets",
+                               argv[1],
+                               "template")
 
     print("Template: " + templateDir)
 

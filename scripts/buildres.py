@@ -10,7 +10,7 @@ def run(argv, projectDir, engineDir, config):
     projectResDir = os.path.join(projectDir, "res")
     templateConfigDir = os.path.join(projectDir,
                                      config["engine"],
-                                     "templates/config/")
+                                     "templates/")
     outResDir = os.path.join(projectDir, "build/res/")
     outSrcDir = os.path.join(projectDir, "build/src/")
 
