@@ -58,9 +58,13 @@ def replaceLines(curFile, config, functions):
         for line in curFile:
             curLineN += 1
             newLine = line
-            condition = re.search("{\?\I\F\ (.*?)\?}", newLine)
-            if condition:
-                process = eval(condition.group(1), config, functions)
+            ifCondition = re.search("{\?IF\ (.*?)\?}", newLine)
+            ifdefCondition = re.search("{\?IFDEF\ (.*?)\?}", newLine)
+            if ifCondition:
+                process = eval(ifCondition.group(1), config, functions)
+                continue
+            if ifdefCondition:
+                process = ifdefCondition.group(1).strip() in config
                 continue
             conditionEnd = re.search("{\?ENDIF\?}", newLine)
             if conditionEnd:
@@ -72,8 +76,8 @@ def replaceLines(curFile, config, functions):
         assertMsg(False, "Processing error in line: {}  ### {}  {}".
                   format(str(curLineN), errno, strerror))
     except:
-        assertMsg(False, "Unexpected processing error in line: {}".
-                  format(str(curLineN)))
+        assertMsg(False, "Unexpected processing error in line: {} ### {}".
+                  format(str(curLineN), sys.exc_info()[0]))
     return curData
 
 
