@@ -16,7 +16,8 @@ config = None
 if proRoot is not None:
     configPath = os.path.join(proRoot, "config.json")
     jsonFile = open(configPath, 'r')
-    config = json.load(jsonFile)
+    config = tools.parseConfig(json.load(jsonFile))
+
 
 toolPath = tools.getToolPath(sys.argv[0])
 

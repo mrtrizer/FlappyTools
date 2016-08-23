@@ -170,3 +170,19 @@ def loadTargetSpec(projectDir, engineDir, target, name, config):
         return imp.load_source(name, scriptPath)
     else:
         return None
+
+
+def parseConfig(config):
+    newConfig = {}
+    for key in config:
+        if not isinstance(config[key], dict):
+            newConfig[key] = config[key]
+            continue
+        for newKey in key.split(","):
+            newKeyTrim = newKey.strip()
+            if not newKeyTrim in newConfig:
+                newConfig[newKeyTrim] = config[key].copy()
+            else:
+                newConfig[newKeyTrim].update(config[key])
+    config = newConfig
+    return config
