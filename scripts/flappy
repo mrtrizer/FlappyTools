@@ -6,8 +6,11 @@ import importlib
 
 import tools
 
-command = sys.argv[1]
-if command == "--help" or command == "-h":
+if len(sys.argv) > 1:
+    command = sys.argv[1]
+    if command == "--help" or command == "-h":
+        command = "help"
+else:
     command = "help"
 
 proRoot = tools.findProRoot(".")
@@ -25,7 +28,6 @@ if proRoot:
     tools.infoMessage("info", "Project root: " + proRoot)
 tools.infoMessage("info", "FlappyTools: " + toolPath)
 
-tools.assertMsg(len(sys.argv) > 1, "Command not defined")
 importlib.import_module(command).run(sys.argv[1:],
                                      proRoot,
                                      toolPath,

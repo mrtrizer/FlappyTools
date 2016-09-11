@@ -6,6 +6,8 @@ import tools
 
 
 def run(argv, projectDir, engineDir, config):
+    tools.assertMsg(projectDir,
+                    "Wrong project dir. Can't find project configuration.")
     engineResDir = os.path.join(projectDir, config["engine"], "res")
     projectResDir = os.path.join(projectDir, "res")
     templateConfigDir = os.path.join(projectDir,

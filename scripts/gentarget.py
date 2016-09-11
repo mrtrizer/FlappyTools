@@ -8,6 +8,8 @@ import tools
 
 
 def run(argv, projectDir, engineDir, config):
+    tools.assertMsg(projectDir,
+                    "Wrong project dir. Can't find project configuration.")
     tools.assertMsg(len(argv) > 1, "Target not defined")
     templateDir = os.path.join(projectDir,
                                config["engine"],

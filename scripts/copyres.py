@@ -7,6 +7,8 @@ import tools
 
 
 def run(argv, projectDir, engineDir, config):
+    tools.assertMsg(projectDir,
+                    "Wrong project dir. Can't find project configuration.")
     tools.assertMsg(len(argv) > 1, "Target is not defined")
     targetDir = os.path.join(projectDir, "targets/", argv[1], "res/")
     resDir = os.path.join(projectDir, "build/res/")
