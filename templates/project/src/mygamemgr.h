@@ -5,8 +5,6 @@
 
 #include <core/scenemgr.h>
 #include <core/transform.h>
-#include <core/animation.h>
-#include <core/flappyapp.h>
 #include <core/entitymgr.h>
 #include <core/inputmgr.h>
 #include <core/gamemgr.h>
@@ -18,10 +16,10 @@
 
 namespace game {
 
-class MyGameMgr : public flappy::GameMgr
-{
+class MyScene : public flappy::Scene {
 public:
     void init() override;
+
 private:
     void createBasket(std::string spritePath, glm::vec2 pos);
 };

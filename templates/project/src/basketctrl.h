@@ -7,7 +7,11 @@ namespace game {
 class BasketCtrl: public flappy::Component {
 public:
     void update(flappy::TimeDelta);
-    std::string color;
+    void setColor(std::string color) {m_color = color;}
+    std::string color() const { return m_color; }
+
+private:
+    std::string m_color;
 };
 
 } // game
