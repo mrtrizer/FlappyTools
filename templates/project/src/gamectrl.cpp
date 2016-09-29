@@ -3,7 +3,7 @@
 #include <glm/gtc/random.hpp>
 #include <core/sprite.h>
 #include <core/inputmanager.h>
-#include <core/circleshape.h>
+#include <core/presenter.h>
 
 #include "ballctrl.h"
 
@@ -18,14 +18,17 @@ void GameCtrl::createBall() {
     string color = colors[linearRand(0, 2)];
     EM->create([=](EP e) {
         switch (linearRand(0,2)) {
-        case 0:
-            e->create<Sprite>()->setPath(string("atlas_baskets:") + color);
+        case 0: {
+            auto sprite = e->create<Sprite>();
+            sprite->setPath(string("atlas_baskets:") + color);
+            sprite->setColor({1,1,1,0.5f});
             break;
+        }
         case 1:
             e->create<CircleShape>()->setColor({0,0,0});
             break;
         case 2:
-            e->create<RectShape>()->setColor({0,0.5f,0,0.5f});
+            e->create<RectShape>()->setColor({0,1,0,0.5f});
             break;
         }
         float randX = linearRand(-30, 30);
@@ -43,12 +46,12 @@ void GameCtrl::update(TimeDelta dt) {
         m_time = 0;
         createBall();
     }
-    if (INPUT->isMouseDown())
-        m_mouseDownPos = INPUT->getMousePos();
-    if (INPUT->isMouseUp())
+    if (INPUT->mouseDown())
+        m_mouseDownPos = INPUT->mousePos();
+    if (INPUT->mouseUp())
         EM->each<BallCtrl>([this](EP e) {
             auto ballCtrl = e->get<BallCtrl>();
-            if (m_mouseDownPos.x - INPUT->getMousePos().x > 0)
+            if (m_mouseDownPos.x - INPUT->mousePos().x > 0)
                 ballCtrl->slideSpeed = glm::max(-30.0f, ballCtrl->slideSpeed - 10);
             else
                 ballCtrl->slideSpeed = glm::min(30.0f, ballCtrl->slideSpeed + 10);
