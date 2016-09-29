@@ -25,8 +25,33 @@ def run(argv, projectDir, engineDir, config):
 
     print("Target: " + targetDir)
 
+    # Modules:
+    modules = []
+    for modulePath in config["modules"]:
+            configPath = os.path.join(projectDir, modulePath, "config.json")
+            jsonFile = open(configPath, 'r')
+            moduleConfig = tools.parseConfig(json.load(jsonFile))
+            moduleConfig["path"] = modulePath
+            modules.append(moduleConfig)
+
+    targetDir = os.path.join(projectDir, "targets/", argv[1])
+
+    targetSpec = tools.loadTargetSpec(projectDir,
+                                      engineDir,
+                                      argv[1],
+                                      "genmodules",
+                                      config)
+    if targetSpec is not None:
+        targetSpec.genModules(argv, projectDir, engineDir, config, modules)
+
+    #Project
+    moduleNames = []
+    for module in modules:
+        moduleNames.append(module["name"])
+
     functions = {"projectDir": projectDir,
-                 "engineDir": engineDir}
+                 "engineDir": engineDir,
+                 "moduleNames": moduleNames}
 
     commonMethods = tools.loadTargetAll(projectDir,
                                         engineDir,
