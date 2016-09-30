@@ -88,6 +88,8 @@ def replaceAll(templateDir, targetDir, config, functions={}):
     for path, dirs, files in os.walk(templateDir):
         for fileName in files:
             infoMessage("proc", fileName)
+            if re.search("!scripts", path):
+                continue
             relPath = os.path.relpath(path, templateDir)
             inPath = os.path.join(path, fileName)
             outPath = os.path.join(targetDir, relPath, fileName)
@@ -151,7 +153,7 @@ def loadTargetAll(projectDir, engineDir, name, config):
     """Loads common targets script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
                               config["engine"],
-                              "scripts/targets/",
+                              "templates/targets/!scripts",
                               name + ".py")
     if (os.path.exists(scriptPath)):
         return imp.load_source(name, scriptPath)
@@ -163,8 +165,9 @@ def loadTargetSpec(projectDir, engineDir, target, name, config):
     """Loads target specific script and returns it as a module"""
     scriptPath = os.path.join(projectDir,
                               config["engine"],
-                              "scripts/targets/",
+                              "templates/targets/",
                               target,
+                              "!scripts",
                               name + ".py")
     if (os.path.exists(scriptPath)):
         return imp.load_source(name, scriptPath)
