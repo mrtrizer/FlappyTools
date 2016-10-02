@@ -149,24 +149,9 @@ def assertMsg(condition, msg):
     exit(1)
 
 
-def loadTargetAll(projectDir, engineDir, name, config):
+def loadScripts(templateDir, name, config):
     """Loads common targets script and returns it as a module"""
-    scriptPath = os.path.join(projectDir,
-                              config["engine"],
-                              "templates/targets/!scripts",
-                              name + ".py")
-    if (os.path.exists(scriptPath)):
-        return imp.load_source(name, scriptPath)
-    else:
-        return None
-
-
-def loadTargetSpec(projectDir, engineDir, target, name, config):
-    """Loads target specific script and returns it as a module"""
-    scriptPath = os.path.join(projectDir,
-                              config["engine"],
-                              "templates/targets/",
-                              target,
+    scriptPath = os.path.join(templateDir,
                               "!scripts",
                               name + ".py")
     if (os.path.exists(scriptPath)):

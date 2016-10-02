@@ -14,9 +14,7 @@ def run(argv, projectDir, engineDir, config):
     resDir = os.path.join(projectDir, "build/res/")
     targetResDir = os.path.join(projectDir, "targets/", argv[1], "res/")
 
-    targetSpec = tools.loadTargetSpec(projectDir,
-                                      engineDir,
-                                      argv[1],
+    targetSpec = tools.loadScripts(targetResDir,
                                       "copyres",
                                       config)
     if targetSpec is not None:
