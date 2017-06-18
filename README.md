@@ -1,5 +1,7 @@
-CLOSED. Now I work on FlappyTools2 https://github.com/mrtrizer/FlappyTools2
-=========
+# CLOSED
+
+# Now I work on FlappyTools2 https://github.com/mrtrizer/FlappyTools2
+
 # FlappyEngine ![build](https://travis-ci.org/mrtrizer/FlappyTools.svg?branch=master)
 ##Install FlappyTools
 To install:
